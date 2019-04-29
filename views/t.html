@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <meta charset='UTF-8'>
+     <title>socket.io客户端</title>
+     <script src='https://cdn.bootcss.com/socket.io/2.2.0/socket.io.js'></script>
+	 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+</head>
+<body>
+     <button id='send'>发送消息到服务器</button>
+     <div>
+          <h3>服务器响应的消息：</h3>
+          <i id='msg'></i>
+     </div>
+
+     <script>
+	 console.log('服务端消息：',  "666");
+          var socket = io('http://localhost:3000');
+          var send = document.querySelector('#send');
+          var msg = document.querySelector('#msg');
+		
+		   socket.on('connect', function(data) { 
+				console.log("Connected to Server"); 
+			});
+
+          socket.on('getMsg', data => {
+              console.log('服务端消息：',  data);
+              msg.innerHTML = `${data} <br/>`;
+          })
+
+          send.onClick = () => {
+               console.log('点击了发送消息！');
+               socket.emit('send', 'hello');
+          }
+     <script>
+</body>
+</html>
